@@ -1,0 +1,528 @@
+h1 {
+    color: red;
+}
+
+* { /* Asterisk means style for everything in page */
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Kumbh Sans', sans-serif;  /* 'Kumbh Sans' refers to the Google font we search up, referenced in the HTML */
+    /* "google fonts kumbh" and get the embed link, reference in HTML in head */
+}
+
+.navbar {
+    background: #131313;
+    height: 80px;
+    display: flex;  /* brings all of the elements to a row */
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;  /* 1 rem = 16 pixels by default */
+    position: sticky;
+    top: 0;
+    z-index: 999;   /* think of 3-D, like stacking. a large value ensures that it is always on top of everything on the page */
+}
+
+.navbar__container {
+    display: flex;
+    justify-content: space-between; /* ?? */
+    height: 80px;
+    z-index: 1;
+    width: 100%;
+    max-width: 1300px;  /* we don't want the width to go past 1300 pixels */
+    /* margin's default arguments are: top right bottom left
+    ex: "margin 0 0 0 0"
+    if you do "margin 0 auto" the '0' does the top and bottom and the 'auto' does right and left */
+    margin: 0 auto;
+    padding: 0 50px;    /* we are making the top&bottom '0' and right&left 50 pixels */
+}
+
+#navbar__logo { /* Use hashtag because it is an id */
+    background-color: #ff8177;
+    /* linear-gradient() is a function that takes in (direction, color-stop1, color-stop2,...)
+    for some color-stop, you specify (color, position) where position is option and can be either a percent or pixel length
+    0% means start, 100% means end */
+    background-image: linear-gradient(to top, #ff0844 0%, #ffb199 100%); /* "to top" means go in the top direction */
+    background-size: 100%;
+    -webkit-background-clip: text;  /* WebKit (Safari, Chrome, etc)-specific extension to the CSS background-clip property, allows you to control how far a background image or color extends beyond an element's padding or content */
+    -moz-background-clip: text; /* Mozilla-specific CSS property that allows you to control which part of an element's background is visible */
+    -webkit-text-fill-color: transparent;   /* specifies the fill color of characters of text. 'transparent' is specifically used for gradient */
+    -moz-text-fill-color: transparent;
+    display: flex;
+    align-items: center;
+    cursor: pointer;    /* When the cursor hovers over, icon will change to hand symbol */
+    text-decoration: none;
+    font-size: 2rem;
+}
+
+/* The actual icon */
+.fa-gem {
+    margin-right: 0.5rem;
+}
+
+.navbar__menu {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    text-align: center;
+}
+
+.navbar__item {
+    height: 80px;
+}
+
+.navbar__links {
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    padding: 0 1rem;
+    height: 100%;
+}
+
+.navbar__btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 1rem;
+    width: 100%;
+}
+
+.button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    padding: 10px 20px;
+    height: 100%;
+    width: 100%;
+    border: none;
+    outline: none;
+    border-radius: 4px;
+    background: #f77062;
+    color: #fff;
+}
+
+/* ":hover" creates a hover effect */
+.button:hover {
+    background: #4837ff;
+    /* "transition" allows us to change property values smoothly over a specified duration
+    it takes in (property to be transitioned, duration, timing function, transition delay)
+    'all' means transition all properties, duration for 0.3 seconds, and ease is the timing function */
+    transition: all 0.3s ease;    /* instead of it being instantly, we want it to be delayed */
+}
+
+.navbar__links:hover {
+    color: #f77062;
+    transition: all 0.3s ease;
+}
+
+/* NOTE: THIS IS LANDSCAPE MODE */
+/* this is the mobile/tablet responsiveness
+you use a media query
+syntax for media query: "@media [media-type] and (media-feature)"
+media-type has default value 'all' and can have values: screen, print, speech
+'(max-width: 960px)' means that when the screen hits 960 pixels, the classes will be triggered */
+/* NOTE: this is the mobile menu. if you drag the window size on PC and make it smaller/skinnier,
+you will actually see the effect applied on the list menu */
+@media screen and (max-width: 960px) {
+    .navbar__container {
+        display: flex;
+        /* we use justify-content because a flex-box is 1D and there may be multiple items along the axis, making it impossible to justify-self or justify-items a single item */
+        justify-content: space-between; /* 'space-between' means distribute flex items evenly, equal space between each item */
+        height: 80px;
+        z-index: 1;
+        width: 100%;
+        max-width: 1300px;
+        padding: 0;
+    }
+
+    /* this is basically a dropdown menu when you click on the three bars with lines on top left
+    'top: -1000px' is sliding this menu to the top to a position where it is not visible */
+    .navbar__menu {
+        display: grid;  /* the element generates a grid container, so all child elements will be in a grid pattern */
+        grid-template-columns: auto;    /* column width is automatically determined by the content */
+        margin: 0;
+        width: 100%;
+        position: absolute; /* 'absolute' means that we are position relative to its closest positioned ancestor or the initial containing block */
+        top: -1000px;
+        opacity: 0; /* we don't want this dropdown to be seen */
+        transition: all 0.5s ease;
+        height: 50vh;   /* 'vh' means viewport height. 50vh is half of the browser window, 100vh is the height of the browser window */
+        z-index: -1;    /* so that we can actually click on icon to trigger this */
+        background: #131313;
+    }
+
+    /* the JavaScript that is going to activate this
+    ".active" is a pseudo-class property that comes into action when an element gets activated by user */
+    .navbar__menu.active {
+        background: #131313;
+        top: 100%;  /* shows the entire active menu */
+        opacity: 1; /* so that we can see it */
+        transition: all 0.5s ease;
+        z-index: 99;
+        height: 50vh;
+        font-size: 1.6rem;
+    }
+
+    #navbar__logo {
+        padding-left: 25px;    /* the width of the padding area on the left side of an element */
+    }
+
+    /* having a bar between two class names indicates a descendant combinator
+    This means that the styles defined for the second class (the child) will only be applied to elements that are descendants of elements that match the first class (parent)
+    In this case, .navbar__toggle .bar is a complex selector that targets elements with class "bar"
+    that are nested inside elements with class ".navbar__toggle" */
+    .navbar__toggle .bar {
+        width: 25px;
+        height: 3px;
+        margin: 5px auto;
+        transition: all 0.3s ease-in-out;
+        background: #fff;
+    }
+
+    .navbar__item {
+        width: 100%;
+    }
+
+    .navbar__links {
+        text-align: center;
+        padding: 2rem;
+        width: 100%;
+        display: table;
+    }
+
+    #mobile-menu {
+        position: absolute;
+        top: 20%;
+        right: 5%;  /* defines the distance between the element’s outer margin and the inner border of the right edge of its containing block */
+        /* translate() takes in three arguments: (horizontal translation, vertical translation, depth translation)
+        horizontal translation represents the amount to move along x-axis, vertical translation represents amount to move along y-axis, and depth translation is amount to move along z-axis*/
+        transform: translate(5%, 20%);
+    }
+
+    .navbar__btn {
+        padding-bottom: 2rem;
+    }
+
+    .button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 80%; /* we shrink the button size a little bit */
+        height: 80px;   /* slightly increase height */
+        margin: 0;
+    }
+
+    .navbar__toggle .bar {
+        display: block; /* each individual bar (on top right to activate menu) will generate a block box and take up full width of its parent element and start on a new line */
+        cursor: pointer;
+    }
+
+    /* NOTE: Here is what we are doing in this section:
+    The second bar disappears
+    The topmost bar and the bottom most bar are rotated to create an 'X' symbol */
+
+    /* '.is-active' will be added in JavaScript */
+    /* 'nth-child(2)' means target second child */
+    #mobile-menu.is-active .bar:nth-child(2) {
+        opacity: 0; /* we don't want this to be visible */
+    }
+
+    #mobile-menu.is-active .bar:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+    }
+
+    #mobile-menu.is-active .bar:nth-child(3) {
+        /* 'translateY()' specifies how much to move DOWN in the y-axis
+        'rotate()' based on clockwise, negative angles are counter-clockwise */
+        transform: translateY(-8px) rotate(-45deg);
+    }
+}
+
+/* Hero Section CSS */
+.main {
+    background-color: #141414;
+}
+
+.main__container {
+    display: grid;
+    /* 'fr' is a fractional unit, where the column width is a fraction of the available space
+    grid-template-columns: 1fr 1fr 2fr; defines three columns with equal widths (33.33% each) and one column with double the width of the others (66.67%)
+    grid-template-rows: 2fr 1fr; defines two rows with double the height of the first row (66.67%) and one row with half the height of the first row (33.33%) */
+    grid-template-columns: 1fr 1fr; /* basically 50-50 even */
+    align-items: center;
+    justify-self: center;
+    margin: 0 auto; /* centers it */
+    height: 90vh;   /* we want it to be 90% of screen */
+    background-color: #141414;
+    z-index: 1;
+    width: 100%;
+    max-width: 1300px;
+    padding: 0 50px;
+}
+
+.main__content h1 {
+    font-size: 4rem;
+    background-color: #ff8177;
+    background-image: linear-gradient(to top, #ff0844 0%, #ffb199 100%);
+    background-size: 100%;
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -moz-text-fill-color: transparent;
+}
+
+.main__content h2 {
+    font-size: 4rem;
+    background-color: #ff8177;
+    background-image: linear-gradient(to top, #b721ff 0%, #21d4fd 100%);
+    background-size: 100%;
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -moz-text-fill-color: transparent;
+}
+
+.main__content p {
+    margin-top: 1rem;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #fff;
+}
+
+.main__btn {
+    font-size: 1rem;
+    background-image: linear-gradient(to top, #f77062 0%, #fe5196 100%);
+    padding: 14px 32px;
+    border: none;   /* A border is drawn inside the element’s content area, affecting the element’s size and layout. It is part of the box model and contributes to the element’s width and height */
+    border-radius: 4px;
+    color: #fff;
+    margin-top: 2rem;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.35s;
+    outline: none;  /* An outline is drawn outside the element’s border, not affecting the element’s size or layout. It does not participate in the box model and does not occupy any space */
+}
+
+/* targets the 'a' tag inside the button which originally made the text purple and underlined */
+.main__btn a {
+    position: relative;
+    z-index: 2;    /* we do this because of the hover effect where the button color switches from red to blue, but is typically unnecessary */
+    color: #fff;    /* changes the text color from purple to white */
+    text-decoration: none;  /* removes the underline from the text */
+}
+
+/* ":after" is a pseudo-element in CSS that allows you to insert content after the content of a selected element. It is often used to add cosmetic content, such as icons, tooltips, or arrows, to an element without modifying its HTML structure */
+/* this is the configuration for what the button will look like after
+we hover it, these configurations are always active, which is why
+we set width = 0% */
+.main__btn:after {
+    position: absolute;
+    content: '';    /* we want this string to be empty so that when we hover, there will be nothing there except for the color */
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    background: #4837ff;
+    transition: all 0.35s;
+    border-radius: 4px;
+    width: 0%;
+}
+
+/* .main__btn:hover {
+    color: #fff;
+} */
+
+/* this shows how much of the ":after" configurations will be shown
+once we hover the button. if you set width to 50% for example, then
+the hover animation will only go halfway */
+.main__btn:hover:after {
+    width: 100%;
+}
+
+.main__img--container {
+    text-align: center;
+}
+
+#main__img {
+    height: 80%;
+    width: 80%;
+}
+
+/* NOTE: THIS IS PORTRAIT MODE */
+/* Mobile Responsive */
+@media screen and (max-width: 768px) {
+    .main__container {
+        display: grid;
+        grid-template-columns: auto;
+        align-items: center;
+        /* https://stackoverflow.com/questions/48535585/what-is-difference-between-justify-self-justify-items-and-justify-content-in-cs */
+        justify-self: center;   /* basically adjusts margins of content */
+        width: 100%;
+        margin: 0 auto;
+        height: 90vh;
+    }
+
+    .main__content {
+        text-align: center;
+        margin-bottom: 4rem;
+    }
+
+    .main__content h1 {
+        font-size: 2.5rem;
+        margin-top: 2rem;
+    }
+
+    .main__content h2 {
+        font-size: 3rem;
+    }
+
+    .main__content p {
+        margin-top: 1rem;
+        font-size: 1.5rem;
+    }
+}
+
+/* NOTE: THIS IS FOR THE SMALLER SCREENS */
+/* Mobile Responsive */
+@media screen and (max-width: 480px) {
+    .main__content h1 {
+        font-size: 2rem;
+        margin-top: 3rem;
+    }
+
+    .main__content h2 {
+        font-size: 2rem;
+    }
+
+    .main__content p {
+        margin-top: 2rem;
+        font-size: 1.5rem;
+    }
+
+    .main__btn {
+        padding: 12px 36 px;
+        margin: 2.5rem 0;
+    }
+}
+
+/* Services Section CSS */
+.services {
+    background: #141414;
+    display: flex;
+    flex-direction: column; /* organizes all elements in the container into a 1D column */
+    align-items: center;
+    height: 100vh;
+}
+
+.services h1 {
+    background-color: #ff8177;
+    background-image: linear-gradient(to right,
+        #ff8177 0%,
+        #ff867a 0%,
+        #ff8c7f 21%,
+        #f99185 52%,
+        #cf556c 78%,
+        #b12a5b 100%
+    );
+    background-size: 100%;
+    margin-bottom: 5rem;
+    font-size: 2.5rem;
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -moz-text-fill-color: transparent;
+}
+
+.services__container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;    /* determines whether flex items should wrap onto multiple lines or not */
+}
+
+/* NOTE: THIS APPEARS TO BE THE FIRST SERVICES CARD */
+.services__card {
+    margin: 1rem;
+    height: 525px;
+    width: 400px;
+    border-radius: 4px;
+    /* a linear gradient for the background to make it darker, it was too bright when you had all the text on top, making text difficult to read */
+    background-image: linear-gradient(to bottom,
+        rgba(0,0,0,0) 0%, 
+        rgba(17,17,17,0.6) 100%
+    ), 
+    url('/images/pic3.jpg');
+    background-size: cover; /* the image is originally really zoomed in. this resizes the background image so that it fits the container */
+    position: relative; /* we want to position the text where we want it */
+    color: #fff;    /* changes the color of all the text to white */
+}
+
+/* NOTE: SECOND SERVICES CARD */
+.services__card:nth-child(2) {
+    background-image: linear-gradient(to bottom,
+        rgba(0,0,0,0) 0%, 
+        rgba(17,17,17,0.6) 100%
+    ), 
+    url('/images/pic4.jpg');
+}
+
+.services h2 {
+    position: absolute;
+    top: 350px; /* shifts the text downwards to be at bottom of image */
+    left: 30px;
+}
+
+.services__card p {
+    position: absolute;
+    top: 400px; /* shifts the text downwards to be under the 'h2' text */
+    left: 30px;
+}
+
+.services__card button {
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    outline: none;
+    border-radius: 4px;
+    background: #f77062;
+    position: absolute;
+    top: 440px; /* shifts the botton downwards to be under the 'h2' and 'p' text */
+    left: 30px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.services__card:hover {
+    /* we will increase the size of service card when we hover */
+    transform: scale(1.075);
+    transition: 0.2s ease-in;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 960px) {
+    .services {
+        height: 1600px;
+    }
+
+    .services h1 {
+        font-size: 2rem;
+        margin-top: 12rem;
+        /* we do this because it is a little close when we shrink the screen
+        and when we add the footer, we want it to have spacing too */
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .services {
+        height: 1400px;
+    }
+
+    .services h1 {
+        font-size: 1.2rem;
+    }
+
+    .services__card {
+        width: 300px;
+    }
+}
